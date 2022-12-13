@@ -15,18 +15,23 @@ export default function Catalog() {
 
    const [product, setProduct] = useState<ProductDTO[]>([]);
 
+   const [productName, setProductName] = useState("");
    
    useEffect(() => {
-      productServices.findAll().then(response =>{
+      productServices.findPageRequest(0, productName).then(response =>{
          setProduct(response.data.content);
       })
-   }, []);
+   }, [productName]);
+
+   function handleSearch(searchText : string) {
+      setProductName(searchText)
+   }
 
    return (
 
       <main>
          <section id="catalog-section" className="dsc-container">
-            <SearchBar />
+            <SearchBar onSearch={handleSearch}/>
 
             <div className="dsc-catalog-cards dsc-mb20 dsc-mt20">
  
